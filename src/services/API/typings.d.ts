@@ -23,42 +23,17 @@ declare namespace API {
     phone?: string;
   };
 
+  type Menu = {
+    path: string,
+    name: string,
+    icon: string,
+    routes: Menu[]
+  }
+
   type LoginResult = {
     status?: string;
     type?: string;
     currentAuthority?: string;
-  };
-
-  type PageParams = {
-    current?: number;
-    pageSize?: number;
-  };
-
-  type RuleListItem = {
-    key?: number;
-    disabled?: boolean;
-    href?: string;
-    avatar?: string;
-    name?: string;
-    owner?: string;
-    desc?: string;
-    callNo?: number;
-    status?: number;
-    updatedAt?: string;
-    createdAt?: string;
-    progress?: number;
-  };
-
-  type RuleList = {
-    data?: RuleListItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  };
-
-  type FakeCaptcha = {
-    code?: number;
-    status?: string;
   };
 
   type LoginParams = {

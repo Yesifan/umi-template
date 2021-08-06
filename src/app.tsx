@@ -3,7 +3,8 @@ import { PageLoading } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
 import { history } from 'umi';
 import RightContent from '@/components/RightContent';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import { currentUser as queryCurrentUser } from './services/API/api';
+import { getMenus } from './services/API/oauth';
 
 const loginPath = '/user/login';
 
@@ -58,6 +59,34 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
       }
+    },
+    menu: {
+      // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
+      params: {
+        userId: initialState?.currentUser?.userid,
+      },
+      request: async () => {
+        // initialState.currentUser 中包含了所有用户信息
+        const fetchMenus = async () => {
+          try {
+            return await getMenus();
+          } catch (error) {
+            history.push(loginPath);
+          }
+          return undefined;
+        };
+        const menuData = await fetchMenus();
+        console.log(menuData);
+        return [
+          {
+            name: 'login',
+            path: '/user/login',
+            hideInMenu: true,
+            headerRender: false,
+            menuRender: false
+          },
+        ];
+      },
     },
     menuHeaderRender: undefined,
     // 自定义 403 页面
