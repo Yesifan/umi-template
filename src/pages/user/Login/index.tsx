@@ -1,12 +1,15 @@
-import { Button, message } from 'antd';
-import React from 'react';
+import { message } from 'antd';
+import React, { useState } from 'react';
 import { Link, history, SelectLang, useModel } from 'umi';
+import ProForm, { ProFormText } from '@ant-design/pro-form';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 import { oauth } from '@/services/API'
 
 import styles from './index.less';
 
 const Login: React.FC = () => {
+  const [submitting, setSubmitting] = useState(false);
   const { setInitialState } = useModel('@@initialState');
 
   const fetchUserInfo = async () => {
@@ -20,6 +23,7 @@ const Login: React.FC = () => {
   };
 
   const handleLogin = async () => {
+    setSubmitting(true);
     await fetchUserInfo();
     message.success("登录成功");
     /** 此方法会跳转到 redirect 参数所在的位置 */
@@ -27,6 +31,8 @@ const Login: React.FC = () => {
     const { query } = history.location;
     const { redirect } = query as { redirect: string };
     history.push(redirect || '/');
+    setSubmitting(false);
+
   }
 
   return (
@@ -46,8 +52,57 @@ const Login: React.FC = () => {
             青岛最具影响力农业环控系统
           </div>
         </div>
-        <div>
-          <Button onClick={handleLogin}>登录</Button>
+        <div className={styles.main}>
+          <ProForm
+            initialValues={{
+              autoLogin: true,
+            }}
+            submitter={{
+              searchConfig: {
+                submitText: "登录",
+              },
+              render: (_, dom) => dom.pop(),
+              submitButtonProps: {
+                loading: submitting,
+                size: 'large',
+                style: {
+                  width: '100%',
+                },
+              },
+            }}
+            onFinish={async () => {
+              handleLogin();
+            }}
+          >
+            <ProFormText
+              name="username"
+              fieldProps={{
+                size: 'large',
+                prefix: <UserOutlined className={styles.prefixIcon} />,
+              }}
+              placeholder="用户名"
+              rules={[
+                {
+                  required: true,
+                  message: "请输入用户名",
+                },
+              ]}
+            />
+            <ProFormText.Password
+              name="password"
+              fieldProps={{
+                size: 'large',
+                prefix: <LockOutlined className={styles.prefixIcon} />,
+              }}
+              placeholder="请输入密码！"
+              rules={[
+                {
+                  required: true,
+                  message: "请输入密码！",
+                },
+              ]}
+            />
+          </ProForm>
         </div>
       </div>
     </div>
