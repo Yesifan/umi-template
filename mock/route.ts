@@ -1,5 +1,5 @@
 export default {
-  '/api/oauth/menus': [
+  'GET /api/oauth/menus': [
     {
       path: '/welcome',
       name: 'welcome',

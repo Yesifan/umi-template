@@ -1,11 +1,7 @@
 // https://umijs.org/config/
 import { defineConfig } from 'umi';
-import { join } from 'path';
 
 import defaultSettings from './defaultSettings';
-import proxy from './proxy';
-
-const { REACT_APP_ENV } = process.env;
 
 export default defineConfig({
   hash: true,
@@ -38,22 +34,11 @@ export default defineConfig({
   esbuild: {},
   title: false,
   ignoreMomentLocale: true,
-  proxy: proxy[REACT_APP_ENV || 'dev'],
   manifest: {
     basePath: '/',
   },
   // Fast Refresh 热更新
   fastRefresh: {},
-  openAPI: [
-    {
-      requestLibPath: "import { request } from 'umi'",
-      // 或者使用在线的版本
-      // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
-      schemaPath: join(__dirname, 'oneapi.json'),
-      mock: false,
-      projectName: 'API',
-    },
-  ],
   nodeModulesTransform: { type: 'none' },
   mfsu: {},
   webpack5: {},
