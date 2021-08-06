@@ -3,23 +3,11 @@ export default {
     data: [
       {
         path: '/welcome',
-        name: 'welcome',
+        name: '欢迎页',
         icon: 'smile',
       },
       {
-        path: '/admin',
-        name: 'admin',
-        icon: 'crown',
-        routes: [
-          {
-            path: '/admin/sub-page',
-            name: 'sub-page',
-            icon: 'smile',
-          },
-        ],
-      },
-      {
-        name: 'list.table-list',
+        name: '表单页',
         icon: 'table',
         path: '/list',
         component: './TableList',
