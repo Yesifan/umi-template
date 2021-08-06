@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 declare namespace API {
-  type CurrentUser = {
+  type User = {
     name?: string;
     avatar?: string;
     userid?: string;
@@ -30,19 +30,6 @@ declare namespace API {
     routes: Menu[]
   }
 
-  type LoginResult = {
-    status?: string;
-    type?: string;
-    currentAuthority?: string;
-  };
-
-  type LoginParams = {
-    username?: string;
-    password?: string;
-    autoLogin?: boolean;
-    type?: string;
-  };
-
   type ErrorResponse = {
     /** 业务约定的错误码 */
     errorCode: string;
@@ -50,27 +37,5 @@ declare namespace API {
     errorMessage?: string;
     /** 业务上的请求是否成功 */
     success?: boolean;
-  };
-
-  type NoticeIconList = {
-    data?: NoticeIconItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  };
-
-  type NoticeIconItemType = 'notification' | 'message' | 'event';
-
-  type NoticeIconItem = {
-    id?: string;
-    extra?: string;
-    key?: string;
-    read?: boolean;
-    avatar?: string;
-    title?: string;
-    status?: string;
-    datetime?: string;
-    description?: string;
-    type?: NoticeIconItemType;
   };
 }

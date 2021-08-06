@@ -3,8 +3,8 @@ import { PageLoading } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
 import { history } from 'umi';
 import RightContent from '@/components/RightContent';
-import { currentUser as queryCurrentUser } from './services/API/api';
-import { getMenus } from './services/API/oauth';
+import { currentUser as queryCurrentUser } from './services/API/user';
+import { getMenus } from './services/API/user';
 
 const loginPath = '/user/login';
 
@@ -18,8 +18,8 @@ export const initialStateConfig = {
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
+  currentUser?: API.User;
+  fetchUserInfo?: () => Promise<API.User | undefined>;
 }> {
   const fetchUserInfo = async () => {
     try {
@@ -34,13 +34,11 @@ export async function getInitialState(): Promise<{
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
     return {
-      fetchUserInfo,
       currentUser,
       settings: {},
     };
   }
   return {
-    fetchUserInfo,
     settings: {},
   };
 }
@@ -76,7 +74,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
           return undefined;
         };
         const menuData = await fetchMenus();
-        console.log(menuData);
         return [
           {
             name: 'login',
@@ -85,12 +82,12 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
             headerRender: false,
             menuRender: false
           },
+          ...(menuData?.data || [])
         ];
       },
     },
-    menuHeaderRender: undefined,
     // 自定义 403 页面
-    // unAccessible: <div>unAccessible</div>,
+    unAccessible: <div>unAccessible</div>,
     ...initialState?.settings,
   };
 };
