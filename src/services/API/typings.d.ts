@@ -16,6 +16,14 @@ declare namespace API {
 
   type Interface<D, E = null> = SuccessInterface<D> | ErrorInterface<E>;
 
+  type Pagination<D> = {
+    list: D[],
+    page: number,
+    pageSize: number,
+    total: number,
+    current: number,
+  }
+
   type User = {
     id: number,
     username: string,
@@ -40,9 +48,9 @@ declare namespace API {
   }
 
   type Menu = {
-    path: string,
     name: string,
-    icon: string,
-    routes: Menu[]
+    icon?: string,
+    path?: string,
+    routes?: Menu[]
   }
 }

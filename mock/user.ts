@@ -1,7 +1,8 @@
 import { Random } from 'mockjs';
 import { Request, Response } from 'express';
 
-import { waitTime, auth } from './index';
+import ROUTES from './routes';
+import { waitTime, auth, pagination } from './index';
 
 import { AUTHORIZATION_KEY } from '../src/lib/constant';
 
@@ -24,38 +25,26 @@ const USER_WITH_ACCESS_TOEKN: API.UserWithToken = {
   accessToken: Random.string(21)
 }
 
-const ROUTES = [
-  {
-    path: '/welcome',
-    name: '欢迎页',
-    icon: 'smile',
-  },
-  {
-    name: '表单页',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
-];
-
 export default {
-  // 支持值为 Object 和 Array
+  // 获取当前用户信息
   'GET /api/user': (req: Request, res: Response) => {
-    return auth(req, res, {
-      success: true,
-      data: USER_INFO,
-    })
+    return auth(req, res, USER_INFO)
   },
+  // 用户分页
+  'GET /api/user/page': (req: Request, res: Response) => {
+    return pagination(req, res, USER_INFO)
+  },
+
+  // 登录，登出
   'POST /api/user/login': async (req: Request, res: Response) => {
     await waitTime(2000);
-    res.send({
-      success: true,
-      data: USER_WITH_ACCESS_TOEKN
-    });
+    res.send(USER_WITH_ACCESS_TOEKN);
   },
   'POST /api/user/outLogin': (req: Request, res: Response) => {
-    res.send({ success: true });
+    res.send(true);
   },
+
+  // 路由
   'GET /api/user/menus': (req: Request, res: Response) => {
     if (req.get(AUTHORIZATION_KEY)) {
       return res.send({

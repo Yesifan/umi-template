@@ -1,5 +1,6 @@
 # 耕耘前端项目模板
 
+[Mock](./mock/README.md) | [API](./src/services/README.md)
 # 技术栈
 - 框架 [umi](https://umijs.org/zh-CN) 
 - [轻量化的全局状态管理](https://umijs.org/zh-CN/plugins/plugin-model)
@@ -38,61 +39,9 @@
 - 不是 .js、.jsx、.ts 或 .tsx 文件
 - 文件内容不包含 JSX 元素
 
-## [MOCK](https://umijs.org/zh-CN/docs/mock)
-约定 [./mock](mock) 下所有文件为 mock 文件。
-引入 [mockjs](http://mockjs.com/) 辅助生成 mock 数据。
-```TypeScript
-import { Random } from 'mockjs';
+### 菜单配置
 
-const USER_INFO: API.User = {
-  id: Random.natural(),
-  username: Random.name(),
-  avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
-  name: Random.name(),
-  sex: 1,
-  phone: '0752-268888888',
-  role: [{ name: "asdf", id: 1 }],
-  state: 1,
-  remark: Random.string(),
-  creationTime: Random.datetime(),
-  lastmodificationTime: Random.datetime(),
-}
 
-const USER_WITH_ACCESS_TOEKN: API.UserWithToken = {
-  ...USER_INFO,
-  accessToken: Random.string(21)
-}
-```
-
-# API
-- 测试环境 - [swagger]()
-- 证书环境 - [swagger]()
-
-## 接口约定
-```TypeScript
-type SuccessInterface<D> = {
-  success: true,
-  data: D,
-};
-
-type ErrorInterface<E = null> = {
-  data: E,
-  success: false,
-  errCode?: number,
-  errMsg?: string
-}
-
-type Interface<D, E = null> = SuccessInterface<D> | ErrorInterface<E>;
-
-// 401 token过期
-type TokenError = {
-  success: false,
-  errCode: '401',
-  errMsg: "登录状态过期"
-}
-```
-
-### [错误码](src/lib/constant)
-|错误码|错误说明|
-|-----|------|
-401|未登录
+# 开发步骤
+1. 创建页面
+2. 定义MOCK/创建API
