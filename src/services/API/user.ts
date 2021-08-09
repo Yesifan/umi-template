@@ -12,5 +12,5 @@ export async function getMenus() {
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser() {
-  return geter<API.User>('/api/currentUser');
+  return geter<API.User>('/api/user');
 }

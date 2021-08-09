@@ -1,17 +1,16 @@
-import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
-import type { RunTimeLayoutConfig } from 'umi';
 import { history } from 'umi';
+import type { RunTimeLayoutConfig } from 'umi';
+
 import RightContent from '@/components/RightContent';
 import { currentUser as queryCurrentUser } from './services/API/user';
 import { getMenus } from './services/API/user';
-
-const loginPath = '/user/login';
+import { LOGIN_PATH } from './lib/constant';
 
 const defaultRouter = [
   {
     name: 'login',
-    path: loginPath,
+    path: LOGIN_PATH,
     hideInMenu: true,
     headerRender: false,
     menuRender: false
@@ -26,31 +25,13 @@ export const initialStateConfig = {
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
-export async function getInitialState(): Promise<{
-  settings?: Partial<LayoutSettings>;
-  currentUser?: API.User;
-  fetchUserInfo?: () => Promise<API.User | undefined>;
-}> {
-  const fetchUserInfo = async () => {
-    try {
-      const msg = await queryCurrentUser();
-      return msg.data;
-    } catch (error) {
-      history.push(loginPath);
-    }
-    return undefined;
-  };
-  // 如果是登录页面，不执行
-  if (history.location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
-    return {
-      currentUser,
-      settings: {},
-    };
+export async function getInitialState(): Promise<{ currentUser?: API.User }> {
+  // 如果不是登录页面
+  if (history.location.pathname !== LOGIN_PATH) {
+    const currentUser = await queryCurrentUser();
+    return { currentUser };
   }
-  return {
-    settings: {},
-  };
+  return {};
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
@@ -65,23 +46,19 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       const { location } = history;
       // 如果没有登录，重定向到 login
       // TODO: 添加redirect
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
+      if (!initialState?.currentUser && location.pathname !== LOGIN_PATH) {
+        history.push(LOGIN_PATH);
       }
     },
     menu: {
       // initialState.currentUser 中包含了所有用户信息
-      // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
       params: {
-        userId: initialState?.currentUser?.userid,
+        userId: initialState?.currentUser?.id,
       },
       request: async () => {
         try {
           const menuData = await getMenus();
-          return [
-            ...defaultRouter,
-            menuData
-          ]
+          return [...defaultRouter, ...menuData]
         } catch (e) {
           return defaultRouter;
         }
@@ -89,6 +66,5 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     },
     // 自定义 403 页面
     unAccessible: <div>unAccessible</div>,
-    ...initialState?.settings,
   };
 };

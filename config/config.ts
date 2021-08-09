@@ -16,12 +16,7 @@ export default defineConfig({
     ...defaultSettings,
   },
   // https://umijs.org/zh-CN/plugins/plugin-locale
-  locale: {
-    default: 'zh-CN',
-    antd: true,
-    // default true, when it is true, will use `navigator.language` overwrite default
-    baseNavigator: true,
-  },
+  locale: false,
   dynamicImport: {
     loading: '@ant-design/pro-layout/es/PageLoading',
   },
@@ -36,6 +31,11 @@ export default defineConfig({
   ignoreMomentLocale: true,
   manifest: {
     basePath: '/',
+  },
+  // https://umijs.org/zh-CN/config#define
+  // 同时在.eslintrc.js和typing.d.ts中配置
+  define: {
+    BASE_URL: "/",
   },
   // Fast Refresh 热更新
   fastRefresh: {},

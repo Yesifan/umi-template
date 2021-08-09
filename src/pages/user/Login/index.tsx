@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import React, { useState } from 'react';
-import { Link, history, SelectLang, useModel } from 'umi';
+import { Link, history } from 'umi';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
@@ -10,35 +10,27 @@ import styles from './index.less';
 
 const Login: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
-  const { setInitialState } = useModel('@@initialState');
-
-  const fetchUserInfo = async () => {
-    const res = await oauth.login();
-    if (res.data) {
-      await setInitialState((s) => ({
-        ...s,
-        currentUser: res.data,
-      }));
-    }
-  };
+  const login = oauth.useLogin();
 
   const handleLogin = async () => {
     setSubmitting(true);
-    await fetchUserInfo();
-    message.success("登录成功");
-    /** 此方法会跳转到 redirect 参数所在的位置 */
-    if (!history) return;
-    const { query } = history.location;
-    const { redirect } = query as { redirect: string };
-    history.push(redirect || '/');
+    const { error } = await login();
+    if (error) {
+      message.warn(error.errMsg)
+    } else {
+      message.success("登录成功");
+      /** 此方法会跳转到 redirect 参数所在的位置 */
+      if (!history) return;
+      const { query } = history.location;
+      const { redirect } = query as { redirect: string };
+      history.push(redirect || '/');
+    }
+
     setSubmitting(false);
   }
 
   return (
     <div className={styles.container}>
-      <div className={styles.lang} data-lang>
-        {SelectLang && <SelectLang />}
-      </div>
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.header}>
@@ -64,9 +56,7 @@ const Login: React.FC = () => {
               submitButtonProps: {
                 loading: submitting,
                 size: 'large',
-                style: {
-                  width: '100%',
-                },
+                style: { width: '100%' },
               },
             }}
             onFinish={async () => {

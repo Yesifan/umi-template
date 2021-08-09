@@ -12,9 +12,4 @@ export default defineConfig({
     babelPlugins: [],
     babelOptions: {},
   },
-  // https://umijs.org/zh-CN/config#define
-  // 同时在.eslintrc.js中配置globals
-  define: {
-    BASE_URL: "/",
-  }
 });
