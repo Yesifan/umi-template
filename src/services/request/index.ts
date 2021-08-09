@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
 import useSWR from 'swr';
-
-import type { RequestConfig } from './fetch';
-import { geter, poster } from './fetch';
-
 import type { SWRResponse } from 'swr';
+
+import { geter, poster } from './fetch';
+import type { RequestConfig } from './fetch';
 
 export { geter, poster } from './fetch';
 

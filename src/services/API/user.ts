@@ -3,7 +3,7 @@ import { loopMenuItem } from '@/lib/utils';
 
 export async function getMenus() {
   try {
-    const menus = await geter<API.Menu[]>('/api/oauth/menus');
+    const menus = await geter<API.Menu[]>('/api/user/menus');
     return loopMenuItem(menus);
   } catch (e) {
     return []
