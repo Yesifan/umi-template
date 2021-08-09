@@ -1,57 +1,46 @@
-# Ant Design Pro
+# 耕耘前端项目模板
 
-This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
+# 技术栈
+- 框架 [umi](https://umijs.org/zh-CN) 
+- 组件库 [antd](https://ant.design/index-cn) + [antd pro](https://procomponents.ant.design/)
 
-## Environment Prepare
+## [约定式路由](https://umijs.org/zh-CN/docs/convention-routing)
+比如以下文件结构：
+```
+.
+  └── pages
+    ├── index.tsx
+    └── users.tsx
+``` 
+会得到以下路由配置，
 
-Install `node_modules`:
+```json
+[
+  { exact: true, path: '/', component: '@/pages/index' },
+  { exact: true, path: '/users', component: '@/pages/users' },
+]
+```
+需要注意的是，满足以下任意规则的文件不会被注册为路由，
 
-```bash
-npm install
+- 以 . 或 _ 开头的文件或目录
+- 以 d.ts 结尾的类型定义文件
+- 以 test.ts、spec.ts、e2e.ts 结尾的测试文件（适用于 .js、.jsx 和 .tsx 文件）
+- components 和 component 目录
+- utils 和 util 目录
+- 不是 .js、.jsx、.ts 或 .tsx 文件
+- 文件内容不包含 JSX 元素
+
+# API
+- 测试环境 - [swagger]()
+- 证书环境 - [swagger]()
+
+### 接口约定
+```json
+{
+  success: boolean,
+  data: "data",
+  errCode: 100,
+  errMsg: "message"
+}
 ```
 
-or
-
-```bash
-yarn
-```
-
-## Provided Scripts
-
-Ant Design Pro provides some useful script to help you quick start and build with web project, code style check and test.
-
-Scripts provided in `package.json`. It's safe to modify or add additional script:
-
-### Start project
-
-```bash
-npm start
-```
-
-### Build project
-
-```bash
-npm run build
-```
-
-### Check code style
-
-```bash
-npm run lint
-```
-
-You can also use script to auto fix some lint error:
-
-```bash
-npm run lint:fix
-```
-
-### Test code
-
-```bash
-npm test
-```
-
-## More
-
-You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).

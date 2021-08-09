@@ -2,12 +2,26 @@
 /* eslint-disable */
 
 declare namespace API {
+  type SuccessInterface<D> = {
+    success: true,
+    data: D,
+  };
+
+  type ErrorInterface<E = null> = {
+    data: E,
+    success: false,
+    errCode?: number,
+    errMsg?: string
+  }
+
+  type Interface<D, E = null> = SuccessInterface<D> | ErrorInterface<E>;
+
   type User = {
-    name?: string;
+    name: string;
+    accessToken: string,
     avatar?: string;
-    userid?: string;
-    email?: string;
-    signature?: string;
+    userid: string;
+    email: string;
     title?: string;
     group?: string;
     tags?: { key?: string; label?: string }[];

@@ -8,6 +8,16 @@ import { getMenus } from './services/API/user';
 
 const loginPath = '/user/login';
 
+const defaultRouter = [
+  {
+    name: 'login',
+    path: loginPath,
+    hideInMenu: true,
+    headerRender: false,
+    menuRender: false
+  },
+]
+
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
   loading: <PageLoading />,
@@ -54,36 +64,27 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
+      // TODO: 添加redirect
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
       }
     },
     menu: {
+      // initialState.currentUser 中包含了所有用户信息
       // 每当 initialState?.currentUser?.userid 发生修改时重新执行 request
       params: {
         userId: initialState?.currentUser?.userid,
       },
       request: async () => {
-        // initialState.currentUser 中包含了所有用户信息
-        const fetchMenus = async () => {
-          try {
-            return await getMenus();
-          } catch (error) {
-            history.push(loginPath);
-          }
-          return undefined;
-        };
-        const menuData = await fetchMenus();
-        return [
-          {
-            name: 'login',
-            path: '/user/login',
-            hideInMenu: true,
-            headerRender: false,
-            menuRender: false
-          },
-          ...(menuData?.data || [])
-        ];
+        try {
+          const menuData = await getMenus();
+          return [
+            ...defaultRouter,
+            menuData
+          ]
+        } catch (e) {
+          return defaultRouter;
+        }
       },
     },
     // 自定义 403 页面

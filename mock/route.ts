@@ -1,5 +1,6 @@
 export default {
   'GET /api/oauth/menus': {
+    success: true,
     data: [
       {
         path: '/welcome',

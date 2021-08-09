@@ -32,7 +32,6 @@ const Login: React.FC = () => {
     const { redirect } = query as { redirect: string };
     history.push(redirect || '/');
     setSubmitting(false);
-
   }
 
   return (
@@ -45,11 +44,11 @@ const Login: React.FC = () => {
           <div className={styles.header}>
             <Link to="/">
               <img alt="logo" className={styles.logo} src="/logo.svg" />
-              <span className={styles.title}>浩丰环控</span>
+              <span className={styles.title}>耕耘前端模板</span>
             </Link>
           </div>
           <div className={styles.desc}>
-            青岛最具影响力农业环控系统
+            SLOG-SLOG-SLOG-SLOG-SLOG
           </div>
         </div>
         <div className={styles.main}>
