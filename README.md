@@ -1,6 +1,6 @@
 # 耕耘前端项目模板
 
-[Mock](./mock/README.md) | [API](./src/services/README.md)
+[Mock](./mock/README.md) | [API](./src/services/README.md) | [GIT](#git)
 # 技术栈
 - 框架 [umi](https://umijs.org/zh-CN) 
 - [轻量化的全局状态管理](https://umijs.org/zh-CN/plugins/plugin-model)
@@ -39,8 +39,14 @@
 - 不是 .js、.jsx、.ts 或 .tsx 文件
 - 文件内容不包含 JSX 元素
 
-### 菜单配置
-
+# git
+    commit rule
+    💥 feat(compiler): add 'comments' option
+    🐛 fix(compiler): fix some bug
+    📝 docs(compiler): add some docs
+    🌷 UI(compiler): better styles
+    🏰 chore(compiler): Made some changes to the scaffolding
+    🌐 locale(compiler): Made a small contribution to internationalization
 
 # 开发步骤
 1. 创建页面

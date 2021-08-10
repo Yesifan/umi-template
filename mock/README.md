@@ -24,3 +24,7 @@ const USER_WITH_ACCESS_TOEKN: API.UserWithToken = {
   accessToken: Random.string(21)
 }
 ```
+
+### 开发时菜单配置
+该项目的路由采用[约定式路由](../README.md "约定式路由")，菜单通过后端接口获得（[路由定义](../src/services/API/typings.d.ts)）。
+所以在进行开发新页面时，我们需要在[routes.ts](./routes.ts)文件中修改mock数据，使菜单能够渲染出新页面的选项。
